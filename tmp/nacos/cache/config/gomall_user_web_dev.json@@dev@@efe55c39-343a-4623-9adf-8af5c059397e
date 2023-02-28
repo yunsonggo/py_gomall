@@ -1,0 +1,68 @@
+{
+  "name": "gomall_user_web",
+  "mode": "debug",
+  "listen": "192.168.1.136",
+  "port": 8000,
+  "free_port": false,
+  "tage":[
+    "gomall",
+    "gomall_user_web"
+  ],
+  "services": [
+    "gomall_user_srv,192.168.1.136,50051"
+  ],
+  "log": {
+    "level": "debug",
+    "path": "logs/user_web/access.log",
+    "maxsize_mb": 20,
+    "maxage_day": 30,
+    "maxbackups_day": 7,
+    "compress": false
+  },
+  "mysql": {
+    "sql_addr": "0.0.0.0",
+    "sql_port": "13308",
+    "sql_user": "root",
+    "sql_pass": "123456",
+    "db_name": "py_gomall",
+    "std_print": false,
+    "max_idle_conn": 160,
+    "max_open_conn": 200,
+    "conn_max_life_hour": 24,
+    "idle_max_life_hour": 1
+  },
+  "jwt": {
+    "key": "HoZfG3GMf87uYTqfO",
+    "issuer": "issuer",
+    "subject": "usertoken",
+    "expire_minute": 10080,
+    "expire_day":7
+  },
+  "consul": {
+    "consul_host": "192.168.1.136",
+    "consul_port": 8500,
+    "timeout_sec": "5s",
+    "interval_sec": "5s",
+    "remove_after_sec": "10s",
+    "tages":[
+      "gomall",
+      "gomall_user_web"
+    ]
+  },
+  "redis":{
+    "redis_addr": "0.0.0.0",
+    "redis_port": 16379,
+    "redis_user": "",
+    "redis_pass": "",
+    "redis_db": 0,
+    "with_expiry_second": 20,
+    "with_tries_times": 20000,
+    "read_timeout_second": 20,
+    "write_timeout_second": 20,
+    "pool_size": 200,
+    "min_idle_conns": 20,
+    "max_conn_age_minute": 5,
+    "pool_timeout_minute": 2,
+    "idle_timeout_minute": 2
+  }
+}

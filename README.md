@@ -1,2 +1,2 @@
 # py_gomall
-python and golang demo pro
+Python and Golang demo pro,Python does the service layer and Golang does the web layer.

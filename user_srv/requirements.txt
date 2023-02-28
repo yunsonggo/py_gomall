@@ -1,0 +1,9 @@
+peewee
+pymysql
+passlib
+grpcio
+grpcio-tools
+# --grpc_python_out 一元
+# --grpclib_python_out 流
+loguru
+# python-consul2

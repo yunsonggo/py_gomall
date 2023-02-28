@@ -1,0 +1,113 @@
+{
+  "name": "snake_web",
+  "listen": "0.0.0.0",
+  "port": 18000,
+  "mode": "debug",
+  "on_cors": true,
+  "on_pprof": true,
+  "secret": "PiChain#022@!&&0001",
+  "pay_winner_ip":"",
+  "target_len":3,
+  "services":[
+    "192.168.1.136:18002"
+  ],
+  "white_list":[
+      "http://192.168.0.190",
+      "http://192.168.0.148",
+      "http://192.168.0.148:8080",
+      "http://192.168.0.148:8090",
+      "http://192.168.0.107",
+      "http://192.168.0.107:8848",
+      "https://www.pichainmall.com",
+      "https://pichainmall.com",
+      "http://www.pichainmall.com",
+      "http://pichainmall.com"
+    ],
+
+  "log": {
+    "level": "debug",
+    "path": "logs/snake_web.log",
+    "max_size_mb": 100,
+    "max_age_day": 15,
+    "max_backup_day": 7,
+    "compress": true
+  },
+  
+  "jwt": {
+    "key": "HoZfG3GMf87uYTqfO",
+    "issuer": "issuer",
+    "subject": "usertoken",
+    "expire_minute": 1440,
+    "expire_day": 7
+  },
+  "mq": {
+    "server_address":[
+      "",
+      ""
+    ],
+    "secret_key": "",
+    "access_key": "",
+    "name_space": "",
+    "group_name": "pcm_snake_group",
+    "retry": 2,
+    "topic": "pcm_snake",
+    "broker": "",
+    "time_level": 0
+  },
+  "ws": {
+    "ws_addr":"0.0.0.0",
+    "ws_port":18089,
+    "group_cap":10,
+    "timeout_second":2,
+    "online_prefix":"line",
+    "submit_prefix":"submit",
+    "hash_key":"hash",
+    "hash_timeout_second":2,
+    "hash_cache_keep_minute":2,
+    "cache_keep_minute":20,
+    "heartbeat_timeout_minute":2,
+    "online_heartbeat_minute":2
+  },
+    "redis":{
+    "redis_addr": "0.0.0.0",
+    "redis_port": 16379,
+    "redis_user": "",
+    "redis_pass": "",
+    "redis_db": 0,
+    "with_expiry_second": 20,
+    "with_tries_times": 20000,
+    "read_timeout_second": 20,
+    "write_timeout_second": 20,
+    "pool_size": 200,
+    "min_idle_conns": 20,
+    "max_conn_age_minute": 5,
+    "pool_timeout_minute": 2,
+    "idle_timeout_minute": 2
+  },
+  "game":{
+    "wide":200,
+    "high":200,
+    "fount_size":30,
+    "width_bean_num":500,
+    "length_bean_num":10
+  },
+  "bean":{
+    "bean_colors":[1,2,3,4,5,6,7],
+    "bean_images":[
+      "bean1.png",
+      "bean2.png",
+      "bean3.png",
+      "bean4.png",
+      "bean5.png",
+      "bean6.png",
+      "bean7.png",
+      "bean8.png"
+    ],
+    "max_bean_value":10,
+    "max_bean_size":5,
+    "max_speed":4,
+    "max_move_num":5,
+    "max_static_num":5,
+    "rest_second":30
+  }
+}

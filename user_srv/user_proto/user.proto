@@ -1,0 +1,89 @@
+syntax = "proto3";
+package user_proto;
+import "google/protobuf/empty.proto";
+option go_package = "user_srv/user_proto/user_gen;userpb";
+
+enum CheckedMessage {
+  CHECKED_UNKNOWN = 0;
+  CHECKED_YES = 1;
+  CHECKED_NO = 2;
+}
+
+message PageRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message IDRequest {
+  int64 intID = 1;
+  string strID = 2;
+}
+
+message PasswdEditRequest {
+  IDRequest ids = 1;
+  string oldPasswd = 2;
+  string newPasswd = 3;
+}
+
+message HasCheckedResponse {
+  bool checked = 1;
+}
+
+service User {
+  // user 分页数据
+  rpc UserList(PageRequest) returns (UsersResponse) {}
+  // ID或手机号 查询用户
+  rpc UserFirst(IDRequest) returns (UserResponse) {}
+  // 添加用户
+  rpc UserCreate(UserRequest) returns (UserResponse) {}
+  // 修改用户
+  rpc UserEdit(UserEditRequest) returns (google.protobuf.Empty) {}
+  // 删除用户
+  rpc UserRemove(IDRequest) returns (google.protobuf.Empty) {}
+  // 校验密码
+  rpc UserCheckPasswd(UserRequest) returns (CheckPasswdResponse) {}
+  // 修改密码
+  rpc UserEditPasswd(PasswdEditRequest) returns (google.protobuf.Empty) {}
+}
+
+message CheckPasswdResponse {
+  CheckedMessage isChecked = 1;
+}
+
+message UsersResponse {
+  int64 total = 1;
+  repeated UserResponse data = 2 ;
+}
+
+message UserRequest {
+  string mobile = 1;
+  string password = 2;
+  string nickname = 3;
+  string icon = 4;
+  int64  birthday = 5;
+  string addr = 6;
+  string desc = 7;
+  string gender = 8;
+  int32  role = 9;
+}
+
+message UserEditRequest {
+  IDRequest ids = 1;
+  UserRequest info = 2;
+}
+
+message UserResponse {
+  int64  id = 1;
+  int64  created_at = 2;
+  int64  updated_at = 3;
+  int64  deleted_at = 4;
+  string mobile = 5;
+  string password = 6;
+  string nickname = 7;
+  string icon = 8;
+  int64  birthday = 9;
+  string addr = 10;
+  string desc = 11;
+  string gender = 12;
+  int32  role = 13;
+}
