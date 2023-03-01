@@ -2,6 +2,7 @@ package user_dial
 
 import (
 	"fmt"
+	uuid "github.com/satori/go.uuid"
 	"py_gomall/v2/common/go_consul"
 )
 
@@ -15,12 +16,14 @@ func NewConsulClient() error {
 
 func Register() error {
 	healthURL := fmt.Sprintf("http://%s:%d/api/consul/health", Host, Port)
+	serverUUID := fmt.Sprintf("%s", uuid.NewV4())
+	fmt.Println("serverUUID:", serverUUID)
 	item := go_consul.ServerItem{
 		Address:            Host,
 		Port:               Port,
 		Name:               Name,
 		Tage:               Tages,
-		ID:                 Name,
+		ID:                 serverUUID,
 		HealthURL:          healthURL,
 		TimeoutSec:         TimeoutSec,
 		IntervalSec:        IntervalSec,

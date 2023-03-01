@@ -7,3 +7,4 @@ grpcio-tools
 # --grpclib_python_out 流
 loguru
 # python-consul2
+pip install nacos-sdk-python

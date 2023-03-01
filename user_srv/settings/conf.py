@@ -1,35 +1,35 @@
 # mysql 连接池
+import nacos
+import os
+import yaml
+import json
 from playhouse.pool import PooledMySQLDatabase
 from playhouse.shortcuts import ReconnectMixin
+
+# 获取当前脚本所在文件夹路径
+curPath = os.path.dirname(os.path.realpath(__file__))
+# 获取yaml文件路径
+yamlPath = os.path.join(curPath, "nacos_conf/user_nacos_conf.yaml")
+f = open(yamlPath, 'r', encoding='utf-8')
+data = yaml.load(f.read(), Loader=yaml.FullLoader)
+client = nacos.NacosClient(server_addresses=data['nacos_addr'], namespace=data['namespace_id'])
+str_data = client.get_config(data_id=data['data_id'], group=data['group'], timeout=data['timeout_ms'])
+json_data = json.loads(str_data)
+APP_CONF = json_data
+
+
+def parse_conf(args):
+    print(args)
 
 
 class ReconnectMysqlDatabase(ReconnectMixin, PooledMySQLDatabase):
     pass
 
 
-SQL_DB = "py_gomall"
-SQL_HOST = "192.168.1.136"
-SQL_PORT = 13308
-SQL_USER = "root"
-SQL_PASS = "123456"
-
-MAX_WORKERS = 10
-SERVER_NAME = "gomall_user_srv"
-SERVER_HOST = "192.168.1.136"
-SERVER_PORT = 0
-
-LOG_MAX_MB = "500 MB"
-LOG_OLD_WEEK = "1 week"
-LOG_CLEANUP_DAYS = "10 days"
-LOG_COMP = "zip"
-
-
-CONSUL_HOST = "192.168.1.136"
-CONSUL_PORT = 8500
-CONSUL_TAGS = ["gomall", "gomall_user_srv"]
-CONSUL_TIMEOUT = "5s"
-CONSUL_INTERVAL = "5s"
-CONSUL_REMOVE = "90m"
-
-
-DB = ReconnectMysqlDatabase(SQL_DB, host=SQL_HOST, port=SQL_PORT, user=SQL_USER, password=SQL_PASS)
+DB = ReconnectMysqlDatabase(
+    APP_CONF["mysql"]["db"],
+    host=APP_CONF["mysql"]["host"],
+    port=APP_CONF["mysql"]["port"],
+    user=APP_CONF["mysql"]["user"],
+    password=APP_CONF["mysql"]["pass"],
+)

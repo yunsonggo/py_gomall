@@ -7,12 +7,12 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"py_gomall/v2/common/go_grpc_pool"
-	"time"
 
+	"py_gomall/v2/common/go_grpc_pool"
 	userpb "py_gomall/v2/user_web/user_proto/user_proto_gen"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var Services, Tages []string
@@ -62,9 +62,13 @@ func RegistrationServices() error {
 	return nil
 }
 
+//func NewUserClient() userpb.UserClient {
+//	fmt.Println(ServerInfoList)
+//	return userpb.NewUserClient(ServerInfoList["gomall_user_srv"].Conn)
+//}
+
 func NewUserClient() userpb.UserClient {
-	fmt.Println(ServerInfoList)
-	return userpb.NewUserClient(ServerInfoList["gomall_user_srv"].Conn)
+	return userpb.NewUserClient(UserBalancerConn)
 }
 
 func NewUserClientPool(host string, port int, length, cap int, timeout time.Duration) (*go_grpc_pool.Pool, error) {

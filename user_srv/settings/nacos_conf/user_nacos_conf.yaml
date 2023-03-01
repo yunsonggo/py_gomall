@@ -1,0 +1,12 @@
+nacos_addr: "192.168.1.136"
+nacos_port: 8848
+namespace_id: "efe55c39-343a-4623-9adf-8af5c059397e"
+timeout_ms: 5000
+load_cache: true
+log_dir: "user_srv/logs/nacos/log"
+cache_dir: "user_srv/tmp/nacos/cache"
+rotate_time: "1h"
+max_age: 3
+log_level: "debug"
+data_id: "gomall_user_srv_dev.json"
+group: "dev"

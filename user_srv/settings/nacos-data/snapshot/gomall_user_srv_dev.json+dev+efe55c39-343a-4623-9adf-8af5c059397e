@@ -1,0 +1,54 @@
+{
+  "name": "gomall_user_srv",
+  "mode": "dev",
+  "listen": "0.0.0.0",
+  "port": 0,
+  "workers": 10,
+  "servers":[
+      ""
+    ],
+  "es_host":"127.0.0.1",
+  "mq_hosts":[
+      "192.168.1.136:13306"
+    ],
+  "log": {
+    "level": "debug",
+    "path": "user_srv/logs/access.log",
+    "maxsize_mb": 20,
+    "maxage_day": 30,
+    "maxbackups_day": 7,
+    "compress": false,
+    "compression": "zip"
+  },
+  "mysql": {
+    "user": "root",
+    "pass": "123456",
+    "addr": "localhost:13308",
+    "host": "192.168.1.136",
+    "port": 13308,
+    "db": "py_gomall"
+  },
+  "jwt": {
+    "key": "jwtkey",
+    "issuer": "issuer",
+    "subject": "subject",
+    "expire_minute": 120
+  },
+  "consul": {
+    "consul_host": "192.168.1.136",
+    "consul_port": 8500,
+    "timeout_sec": "5s",
+    "interval_sec": "5s",
+    "remove_after_sec": "10s",
+    "tages": [
+      "gomall",
+      "gomall_user_srv"
+    ]
+  },
+  "redis":{
+    "redis_addr": "192.168.1.136",
+    "redis_port": 16379,
+    "redis_pass": "",
+    "redis_db": 0
+  }
+}

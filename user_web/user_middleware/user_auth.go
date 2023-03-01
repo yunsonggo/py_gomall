@@ -40,6 +40,7 @@ func Auth() gin.HandlerFunc {
 		// TODO::调用用户服务
 		//user, err := dial.SnakeServers[0].SC.FirstUser(ctx, &snakepb.IDRequest{IdString: userID})
 		user, err := user_dial.NewUserClient().UserFirst(ctx, &userpb.IDRequest{StrID: mobile})
+
 		if user.Id == 0 {
 			user_msg.Failed(ctx, codes.Unauthenticated, "token error", err)
 			ctx.Abort()

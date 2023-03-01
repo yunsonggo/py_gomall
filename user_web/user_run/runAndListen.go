@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"py_gomall/v2/user_web/user_dial"
+	"py_gomall/v2/user_web/user_dial/client_balancer"
+	userpb "py_gomall/v2/user_web/user_proto/user_proto_gen"
 	"syscall"
 	"time"
 )
@@ -31,9 +34,26 @@ func Run(r *gin.Engine) {
 	if err := user_dial.Register(); err != nil {
 		zap.L().Fatal("consul client register user_web error", zap.Error(err))
 	}
-	if err := user_dial.ServiceList(); err != nil {
-		zap.L().Fatal("consul client register user_web error", zap.Error(err))
+	//if err := user_dial.ServiceList(); err != nil {
+	//	zap.L().Fatal("consul client register user_web error", zap.Error(err))
+	//}
+	// 通过负载均衡库获取grpc User client
+	// user_dial.UserBalancerConn = user_dial.InitSrvConn("gomall_user_srv")
+	// grpc 拉取服务 负载均衡方式二
+	userConn, err := client_balancer.NewUserBalancer("gomall_user_srv")
+	if err != nil {
+		log.Fatal(err)
 	}
+	user_dial.UserBalancerConn = userConn
+	u := userpb.NewUserClient(user_dial.UserBalancerConn)
+	list, err := u.UserList(context.Background(), &userpb.PageRequest{
+		Page: 1,
+		Size: 5,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(list)
 
 	srv := &http.Server{
 		Addr:    AppHost,
@@ -53,10 +73,11 @@ func Run(r *gin.Engine) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer func() {
 		// TODO:: close store's client or conn ...
-		for _, info := range user_dial.ServerInfoList {
-			_ = info.Conn.Close()
-		}
-		_ = user_dial.Deregister()
+		//for _, info := range user_dial.ServerInfoList {
+		//	_ = info.Conn.Close()
+		//}
+		//_ = user_dial.Deregister()
+		_ = user_dial.UserBalancerConn.Close()
 		_ = zap.L().Sync()
 		cancel()
 	}()
